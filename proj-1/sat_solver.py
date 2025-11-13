@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import os
 import sys
+import csv
+import time
 
 """
  AJ Jones ajones42
@@ -211,30 +213,53 @@ def solve_sat(clause, var_count):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python3 sat_solver.py <filename.cnf>")
+        print("usage: python3 sat_solver.py <filename.cnf>")
         sys.exit(1)
     
     filename = sys.argv[1]
     problems = parse_cnf_files(filename)
     
-    for i, (var_count, clause) in enumerate(problems, 1):
-        print(f"Problem {i}:")
-        print(f"Variables: {var_count}, Clause: {len(clause)}")
+    # save as csv
+    csv_filename = "resultsfile.csv"
+    with open(csv_filename, mode='w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        # write header
+        csv_writer.writerow([
+            "instance_id", "n_vars", "n_clauses", "method", "satisfiable", "time_seconds", "solution"
+        ])
         
-        result = solve_sat(clause, var_count)
-        
-        if result is not None:
-            print("SAT")
+        for i, (var_count, clause) in enumerate(problems, 1):
+            print(f"problem {i}:")
+            print(f"variables: {var_count}, clause: {len(clause)}")
             
-            #print assignment in order
-            assignment_list = []
-            for var in range(1, var_count + 1):
-                if var in result:
-                    assignment_list.append(var if result[var] else -var)
-                else:
-                    assignment_list.append(var)  # Default to True if unassigned
-            print(" ".join(map(str, assignment_list)))
-        else:
-            print("UNSAT")
-        
-        print()
+            start_time = time.time()
+            result = solve_sat(clause, var_count)
+            end_time = time.time()
+            
+            method = "backtracking"  
+            time_taken = end_time - start_time
+            satisfiable = 1 if result is not None else 0
+            
+            if result is not None:
+                print("SAT")
+                
+                # print assignment in order
+                assignment_list = []
+                for var in range(1, var_count + 1):
+                    if var in result:
+                        assignment_list.append(var if result[var] else -var)
+                    else:
+                        assignment_list.append(var)  # Default to True if unassigned
+                print(" ".join(map(str, assignment_list)))
+                
+                solution_dict = {var: result.get(var, True) for var in range(1, var_count + 1)}
+            else:
+                print("UNSAT")
+                solution_dict = {}
+            
+            # Write to CSV
+            csv_writer.writerow([
+                i, var_count, len(clause), method, satisfiable, time_taken, solution_dict
+            ])
+            
+            print()
