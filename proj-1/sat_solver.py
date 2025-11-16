@@ -127,6 +127,57 @@ def unit_prop(clause, assignment):
 
     return assignment, clause
 
+"""
+
+pure literal elimination: if a propositional variable occurs with one polarity in the formula, it is pure.
+    - pure literals can always be assingned in a way that makes all clauses true
+    - when assigned in such a  way, clauses do not constrain the search and can be deleted
+    
+    - unsat: if one clause becomes empty, or if all variables are assigned s.t. corresponding literals are      false
+
+
+"""
+
+
+def pure_literal_elim(clause, assignment, var_count):
+    changed = True 
+    while changed: 
+        changed = False
+    
+        # track polarity
+        polarity ={}
+    
+        for c in clause:
+            for literal in c:
+                var = abs(literal)
+                if var in assignment:
+                    continue
+            
+                sign = 1 if literal > 0 else -1
+    
+                if var not in polarity:
+                    polarity[var] = sign
+                elif polarity[var] != sign:
+                    polarity[var] = 0 # both exist
+    
+        # assign pure literals
+        for v,p in polarity.items():
+            if p != 0:
+                assignment[v] = (p > 0)
+                changed = True
+        
+                clause, status = simp_clause(clause, assignment)
+            
+                if status == "UNSAT":
+                    return None, None
+                if status == "SAT":
+                    return assignment, clause
+                    
+                break
+
+    return assignment, clause
+
+
 
 """
 
@@ -145,6 +196,7 @@ def var_pick(clause, assignment, var_count):
         if var not in assignment:
             return var
     return None
+
 
 
 """
@@ -166,6 +218,13 @@ def dpll(clause, assignment, var_count):
     temp = assignment.copy()
 
     temp, clause = unit_prop(clause, temp)
+    
+    if temp is None:
+        return None
+
+
+    #pure literal
+    temp, clause = pure_literal_elim(clause, temp, var_count)
     
     if temp is None:
         return None
@@ -249,7 +308,7 @@ if __name__ == "__main__":
                     if var in result:
                         assignment_list.append(var if result[var] else -var)
                     else:
-                        assignment_list.append(var)  # Default to True if unassigned
+                        assignment_list.append(var)  # default to True if unassigned
                 print(" ".join(map(str, assignment_list)))
                 
                 solution_dict = {var: result.get(var, True) for var in range(1, var_count + 1)}
@@ -257,7 +316,7 @@ if __name__ == "__main__":
                 print("UNSAT")
                 solution_dict = {}
             
-            # Write to CSV
+            # write to CSV
             csv_writer.writerow([
                 i, var_count, len(clause), method, satisfiable, time_taken, solution_dict
             ])
