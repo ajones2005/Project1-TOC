@@ -1,76 +1,78 @@
-Project Readme Project Solverz
-Version 1 9/11/24
-A single copy of this template should be filled out and submitted with each project submission, regardless of the number of students on the team. It should have the name readme_”teamname”
-Also change the title of this template to “Project x Readme Team xxx”
-1
-Team Name: Problem Solverz
-2
-Team members names and netids: AJ Jones, ajones42
-3
-Overall project attempted, with sub-projects:  Backtracking SAT Solver -DPLL Implementaiton
-4
-Overall success of the project: Pretty successful, test files pass, and works on a larger data set.
-5
-Approximately total time (in hours) to complete: 6-7 Hours
-6
-Link to github repository: https://github.com/ajones2005/Project1-TOC.git
-7
-List of included files (if you have many files of a certain type, such as test files of different sizes, list just the folder): (Add more rows as necessary). Add more rows as necessary.
-
-File/folder Name: ~/cse-30151/Project1-TOC/proj-1
-
-
-File Contents and Use
-
-
-Code Files
-sat_solver.py
-
-
-Main algorithm implementation, file input and output, unit propagation.
-Test Files
-2SAT.cnf
-cnffile.cnf 
- kSAT.cnf
-
-
-Test files containing SAT clauses in DIMACS CNF format. Two other files are for testing how my code goes against  large amounts of data
-Output Files
-resultsfile.csv
-Correct output with an instance id, variables, clauses, and what method i used
-Plots (as needed)
-
-
-
-
-
+Project Readme: Project Solverz
+Version: 1 — 9/11/24
+Team Information
+#	Item	Details
+1	Team Name	Problem Solverz
+2	Team Members & NetIDs	AJ Jones, ajones42
+Project Overview
+#	Item	Details
+3	Overall Project Attempted	Backtracking SAT Solver – DPLL Implementation
+4	Overall Success	Pretty successful; test files pass and works on larger datasets
+5	Approx. Total Time (hours)	6–7
+6	GitHub Repository	Link
+Included Files
+File/Folder	Contents & Use
+sat_solver.py	Main algorithm implementation, file input/output, unit propagation
+2SAT.cnf, cnffile.cnf, kSAT.cnf	Test files in DIMACS CNF format; test solver on small and large datasets
+resultsfile.csv	Output file with instance ID, variables, clauses, and method used
+Programming Languages & Libraries
+#	Item	Details
+8	Languages & Libraries	Python, os, sys, csv, time
+Key Data Structures
+#	Item	Details
+9	Data Structures	List of lists (CNF formula), dict (variable assignments), dict (polarity for pure literals), tuple (CNF representation), dict (solution output), list (CSV rows)
+General Operation
+#	Item	Details
+10	Code Operation	The SAT solver solves boolean formulas in CNF using a backtracking DPLL algorithm. Input CSV files contain CNF formulas. The solver uses recursive backtracking enhanced by unit propagation and pure literal elimination. Early termination occurs when all clauses are satisfied or a contradiction is found.
+Test Cases
+#	Item	Details
+11	Test Cases	CNF formulas with various variables and clauses. Tautologies test simplification, repeated clauses test robustness, multiple instances per file test solver’s ability to separate instances.
+Code Development
+#	Item	Details
+12	Development Approach	Conducted research on DPLL, watched tutorials, divided problem into sub-problems, and tested incrementally.
+Results
+#	Item	Details
+13	Results Discussion	Tested on three CNF instances with 4 variables and 10 clauses each. Problem 1 was unsatisfiable; Problems 2 and 3 were satisfiable with assignments {1: True, 2: True, 3: True, 4: False} and {1: False, 2: False, 3: True, 4: True}. Low computation times indicate efficiency with unit propagation, pure literal elimination, and backtracking. The solver reliably identifies satisfiable and unsatisfiable formulas.
+Team Organization
+#	Item	Details
+14	Team Organization	Single member project
+Future Improvements
+#	Item	Details
+15	What Would Be Done Differently	Incorporate more automated testing, including edge cases with large formulas, redundant clauses, and known UNSAT instances to verify correctness and measure performance.
+Additional Material
+#	Item	Details
+16	Resources	YouTube Video, DPLL Wikipedia
 
 
-8
-Programming languages used, and associated libraries: Python, os,sys,csv, and time
-9
-Key data structures (for each sub-project): List of Lists for CNF formula representation, Dictionary for variable assignments, Dictionary for Polarity in pure literals, a tuple for CNF representation, a dictionary for the solution output, and a list of rows for the csv output.
-10
-General operation of code (for each subproject) : The SAT solver is made to solve boolean formulas expressed in conjunctive normal form (CNF) using a backtracking algorithm implemented using the DPLL method. The code operates by taking in a csv file with CNF formulas in DIMAC’s form, then taking this data and solving via the DPLL method and its helper functions, unit_prop, simp_clause, and pure_literal_elim. My solver uses recursive backtracking, helped by unit propagation and pure literal elimination, to improve efficiency. The algorithm also terminates early when all clauses are satisfied or a contradiction is found.
-11
-What test cases you used/added, why you used them, what did they tell you about the correctness of your code.
 
-Test cases included boolean formulas expressed in CNF, with x variables and x clauses. These files were used to test solver’s ability to detect satisfiability in presence of redundant or contradictory clauses. The tautologies help test for simplification, and repeated clauses help test for robustness. Also having multiple problems per file helps us identify if our solver can correctly separate instances.
-12
-How you managed the code development:
 
-I managed by doing a lot of research on the DPLL algorithm so I could correctly implement it. I also looked up a lot of videos of people implementing the DPLL algorithm so I could get a sense for the intuition that goes into the algorithm. Lastly, I broke up the problem into multiple sub-problems, and tested my code as I went.
-13
-Detailed discussion of results:
-The SAT solver was tested on three CNF instances, each with 4 variables and 10 clauses, using the backtracking DPLL algorithm. Problem 1 was unsatisfiable, and the solver correctly returned no assignment, demonstrating its ability to detect contradictions efficiently. Problems  2 and 3 were satisfiable, with the solver producing valid assignments {1: True, 2: True, 3: True, 4: False} and {1: False, 2: False, 3: True, 4: True}, shows that it can find correct solutions when they exist. The  low computation times show that clause simplification, unit propagation, pure literal elimination, and recursive backtracking were applied efficiently. Overall, the results confirm that the solver reliably identifies satisfiable and unsatisfiable formulas and produces correct assignments for SAT instances.
-14
-How team was organized: Team is just Me
-15
-What you might do differently if you did the project again: I would incorporate more automated testing, including edge cases like large formulas, redundant clauses, and known UNSAT instances, to better verify correctness and measure the solver performance under different scenarios.
-16
-Any additional material:
-https://www.youtube.com/watch?v=opppqIdiX-A&t=5294s
-https://en.wikipedia.org/wiki/DPLL_algorithm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
