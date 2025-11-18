@@ -170,7 +170,7 @@ class SatSolver(SatSolverAbstractClass):
             result = dpll(clause, new_assignment, var_count)
             return result
 
-        # Run the solver
+        # run the solver
     
         result = dpll(clauses, {}, n_vars)
 
